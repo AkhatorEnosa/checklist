@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "tailwindcss";
+
+* {
+    font-family: "Poppins", sans-serif;
+}
+
+.container .icon path {
+    fill: transparent; 
+    stroke-width: 2;
+    stroke: white ;
+    stroke-dasharray: 1500;
+    stroke-dashoffset: 1500;
+}
+
+.container .icon:hover path {
+    animation: animate-icon 0.5s linear forwards;
+}
+
+@keyframes animate-icon {
+    0% {
+        stroke-dashoffset: 1500;
+    }
+    50% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        fill: white;
+        stroke-width: 0;
+    }
+}
