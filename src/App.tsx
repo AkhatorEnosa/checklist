@@ -2,19 +2,37 @@ import { useContext, useEffect, useState } from "react"
 import Todo from "./components/Todo"
 import { AppContext } from "./context/AppContextInstance"
 import { COLORS } from "./constants/colors"
+import { motion } from "framer-motion"
 import Color from "./components/Color"
 
 function App() {
   const { todos, color } = useContext(AppContext)
-  const [textColor, setTextColor] = useState<string>('')
+  const [textColor, setTextColor] = useState<string>('text-gray-600') // Default
 
   useEffect(() => {
-    const convert = color.split('-');
-    convert.splice(0, 1, "text");
-    const bundle = convert.join('-');
-    setTextColor(bundle);
-    // console.log(textColor);
-  }, [color, textColor]);
+    if (!color || !color.includes('-')) return
+    
+    const convert = color.split('-')
+    if (convert.length < 2) return // Ensure proper format
+    
+    convert.splice(0, 1, "text")
+    const bundle = convert.join('-')
+    // console.log("Setting textColor to:", bundle)
+    setTextColor(bundle)
+  }, [color])
+
+  const variants = {
+    hidden: { x: 100, opacity: 0 },
+    visible: { 
+      x: 0, 
+      opacity: 1, 
+      transition: { 
+        duration: 0.5,
+        staggerChildren: 0.2,
+        bounce: 0.4,
+        ease: "easeInOut",
+      } },
+  }
 
   return (
     <div className="w-screen h-screen flex justify-center items-center p-10 bg-white">
@@ -31,30 +49,36 @@ function App() {
           </div>
         </div>
 
-        <div className="w-full flex flex-col justify-center rounded-[25px] px-5 py-5 bg-white font-semibold"
-          style={{ boxShadow: `0px -10px 20px -15px rgba(0,0,0,0.8)` }}
+        <motion.div 
+          animate={{ y: 0}}
+          initial={{ y: 20}}
+          transition={{ type: "spring" }}
+          className="w-full flex flex-col justify-center rounded-[25px] px-5 py-5 bg-white font-semibold"
+          style={{ boxShadow: `0px -10px 20px -20px rgba(0,0,0,0.8)` }}
         >
           <h2 className="text-lg">Todo this day</h2>
           <ul className="w-full flex flex-col justify-center items-start gap-2 mt-5">
-            {todos && todos.map((todo) => <Todo key={todo.id} title={todo.title} /> )}
+            {todos && todos.map((todo, i) => (
+              <Todo key={todo.id} title={todo.title} index={i} completed={todo.completed}/> 
+            ))}
             {todos && todos.length === 0 && (
               <li className="w-full h-fit px-5 py-4 bg-gray-100/50 rounded-[20px] cursor-pointer">
                 No tasks for today
               </li>
             )}
           </ul>
-        </div>
+        </motion.div>
       </div>
 
-      <div className="w-fit h-fit flex flex-col justify-center items-center gap-2 p-2 bg-white rounded-full shadow-xl ml-10">
+      <motion.div
+        variants={variants}
+        initial="hidden"
+        animate="visible"
+        className="w-fit h-fit flex flex-col justify-center items-center gap-2 p-2 bg-white rounded-full shadow-xl ml-10 overflow-hidden">
         {COLORS.map((color, index) => (
           <Color key={color} color={color} index={index}/>
         ))}
-        {/* <span className={`size-8 rounded-full bg-purple-600`}></span>
-        <span className={`size-8 rounded-full bg-pink-600`}></span>
-        <span className={`size-8 rounded-full bg-sky-600`}></span>
-        <span className={`size-8 rounded-full bg-green-600`}></span> */}
-      </div>
+      </motion.div>
     </div>
   )
 }

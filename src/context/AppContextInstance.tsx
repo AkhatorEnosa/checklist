@@ -1,18 +1,15 @@
 import { createContext, Dispatch, SetStateAction } from "react";
-interface Task {
-    id: number;
-    title: string;
-    completed: boolean;
-  }
+import { TodoProps } from "../types/Todo";
 
 export const AppContext = createContext<{
     color: string;
     setColor: React.Dispatch<React.SetStateAction<string>>;
-    todos: Task[];
-    setTodos: Dispatch<SetStateAction<Task[]>>;
+    todos: TodoProps[];
+    setTodos: Dispatch<SetStateAction<TodoProps[]>>;
     currIndex: number;
     setCurrIndex: Dispatch<SetStateAction<number>>;
-    handleColorChange?: (newColor: string, newIndex: number) => void
+    handleColorChange?: (newColor: string, newIndex: number) => void;
+    handleTodoComplete?: (index: number) => void;
 }>({
     color: '#fa5454',
     setColor: () => {},
@@ -20,5 +17,6 @@ export const AppContext = createContext<{
     setTodos: () => {},
     currIndex: 0,
     setCurrIndex: () => {},
-    handleColorChange: () => {}
+    handleColorChange: () => {},
+    handleTodoComplete: () => {}
 });

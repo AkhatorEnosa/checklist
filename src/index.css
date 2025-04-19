@@ -5,6 +5,12 @@
     font-family: "Poppins", sans-serif;
 }
 
+.bi-caret-left-fill,
+.bi-caret-right-fill {
+  color: inherit !important;
+  fill: currentColor !important;
+}
+
 .container .icon path {
     fill: transparent; 
     stroke-width: 2;
