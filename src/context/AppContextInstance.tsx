@@ -10,6 +10,7 @@ export const AppContext = createContext<{
     setCurrIndex: Dispatch<SetStateAction<number>>;
     handleColorChange?: (newColor: string, newIndex: number) => void;
     handleTodoComplete?: (index: number) => void;
+    handleAddTodo?: (newTodo: TodoProps) => void;
 }>({
     color: '#fa5454',
     setColor: () => {},
@@ -18,5 +19,6 @@ export const AppContext = createContext<{
     currIndex: 0,
     setCurrIndex: () => {},
     handleColorChange: () => {},
-    handleTodoComplete: () => {}
+    handleTodoComplete: () => {},
+    handleAddTodo: () => {},
 });

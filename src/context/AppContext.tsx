@@ -36,6 +36,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setTodos(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
   };
+
+  const handleAddTodo = (newTodo: TodoProps) => {
+    const updatedTodos = [newTodo, ...todos];
+    setTodos(updatedTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+  };
     
   return (
     <AppContext.Provider value={{
@@ -43,7 +49,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         todos, setTodos,
         currIndex, setCurrIndex,
         handleColorChange,
-        handleTodoComplete
+        handleTodoComplete,
+        handleAddTodo
     }}>
       {children}
     </AppContext.Provider>

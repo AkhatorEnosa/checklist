@@ -6,8 +6,10 @@ import { motion } from "framer-motion"
 import Color from "./components/Color"
 
 function App() {
-  const { todos, color } = useContext(AppContext)
-  const [textColor, setTextColor] = useState<string>('text-gray-600') // Default
+  const { todos, color, handleAddTodo } = useContext(AppContext)
+  const [textColor, setTextColor] = useState<string>('') // Default
+  const [showInput, setShowInput] = useState(false)
+  const [inputValue, setInputValue] = useState("")
 
   useEffect(() => {
     if (!color || !color.includes('-')) return
@@ -43,31 +45,71 @@ function App() {
             <span className={`flex justify-center items-center size-6 bg-white ${textColor} font-bold rounded-full text-base cursor-pointer  transition-colors duration-300`}><i className="bi bi-caret-left-fill"></i></span>
             <span className={`flex justify-center items-center size-6 bg-white ${textColor} font-bold rounded-full text-base cursor-pointer opacity-50  transition-colors duration-300`}><i className="bi bi-caret-right-fill"></i></span>
           </div>
-          <div className="flex justify-center items-center gap-6">
-            <span className="flex justify-center items-center size-5 text-white text-2xl font-bold"><i className="bi bi-box-arrow-up"></i></span>
+          {!showInput && <div className="flex justify-center items-center gap-6">
+            <span className={`flex justify-center items-center bg-white size-6 ${textColor} p-4 rounded-full text-2xl font-bold cursor-pointer`}
+              onClick={() => setShowInput(true)}
+            ><i className="bi bi-plus-lg"></i></span>
             <p>Done</p>
-          </div>
+          </div>}
         </div>
 
         <motion.div 
-          animate={{ y: 0}}
+          animate={{ y: 0, boxShadow: `0px -15px 20px -20px rgba(0,0,0,0.8)` }}
           initial={{ y: 20}}
           transition={{ type: "spring" }}
-          className="w-full flex flex-col justify-center rounded-[25px] px-5 py-5 bg-white font-semibold"
-          style={{ boxShadow: `0px -10px 20px -20px rgba(0,0,0,0.8)` }}
+          className="w-full max-h-[60vh] flex flex-col justify-center rounded-[25px] px-5 py-5 gap-5 bg-white font-semibold overflow-scroll"
         >
-          <h2 className="text-lg">Todo this day</h2>
-          <ul className="w-full flex flex-col justify-center items-start gap-2 mt-5">
-            {todos && todos.map((todo, i) => (
-              <Todo key={todo.id} title={todo.title} index={i} completed={todo.completed}/> 
-            ))}
-            {todos && todos.length === 0 && (
-              <li className="w-full h-fit px-5 py-4 bg-gray-100/50 rounded-[20px] cursor-pointer">
-                No tasks for today
-              </li>
-            )}
-          </ul>
+          <h2 className="w-full bg-white sticky top-0 text-lg pb-4 z-40">{showInput ? "Write a Todo" : "Todo this day"}</h2>
+          {
+            !showInput ? 
+            <ul className="w-full flex flex-col justify-center items-start gap-2 mt-10">
+              {todos && todos.map((todo, i) => (
+                <Todo key={todo.id} title={todo.title} index={i} completed={todo.completed}/> 
+              ))}
+              {todos && todos.length === 0 && (
+                <li className="w-full h-fit px-5 py-4 bg-gray-100/50 rounded-[20px] cursor-pointer">
+                  No tasks for today
+                </li>
+              )}
+            </ul> 
+            
+            :
+
+            <motion.div
+              initial={{ opacity: 0, y: 100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
+              exit={{ opacity: 0, y: -100 }}
+              className={`w-full h-fit flex flex-col justify-center items-center gap-2 transition-opacity duration-500`}
+            >
+              <input 
+                type="text" 
+                className={`w-full h-fit flex items-center gap-2 px-5 py-4 bg-gray-100/50 rounded-[20px] shadow border-[1px] border-gray-200 transition-all duration-300 cursor-pointer`}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Write a todo..."
+              />
+              <div className="w-full h-fit flex justify-center items-center gap-2 mt-2">
+                <button className={`w-fit h-fit flex justify-center items-center gap-2 px-5 py-4 text-white rounded-[20px] shadow border-[1px] border-gray-200 transition-all duration-300 cursor-pointer bg-neutral-800 text-sm`}
+                  onClick={() => setShowInput(false)}
+                >
+                  <i className="bi bi-x-lg"></i>
+                  Cancel
+                </button>
+                <button className={`w-fit h-fit flex justify-center items-center gap-2 px-5 py-4 text-white rounded-[20px] shadow border-[1px] border-gray-200 transition-all duration-300 cursor-pointer text-sm ${color}`}
+                  onClick={() => {
+                    if(handleAddTodo) handleAddTodo({ id: Date.now(), title: inputValue, completed: false });
+                    setShowInput(false)
+                  }}
+                >
+                  <i className="bi bi-check-lg"></i>
+                  Add
+                </button>
+              </div>
+            </motion.div>
+          }
         </motion.div>
+        
       </div>
 
       <motion.div

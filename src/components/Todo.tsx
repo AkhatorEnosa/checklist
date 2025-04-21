@@ -16,7 +16,7 @@ const Todo = ({ title, index, completed }: TodoProps) => {
       animate={{ y: [-20, 0], opacity: 1}}
       initial={{ y: 0, opacity: 0}}
       transition={{ delay: 0.2, type: "spring" }}
-      className="w-full h-fit flex items-center gap-2 px-5 py-4 bg-gray-100/50 rounded-[20px] hover:shadow transition-all duration-300 cursor-pointer" onClick={() => handleTodoComplete && handleTodoComplete(index)}
+      className={`w-full h-fit flex items-center gap-2 px-5 py-4 bg-gray-100/50 rounded-[20px] ${completed && "shadow"} hover:shadow transition-all duration-300 cursor-pointer`} onClick={() => handleTodoComplete && handleTodoComplete(index)}
     >
       <div className="relative size-5">
         <svg
