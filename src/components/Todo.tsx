@@ -43,7 +43,7 @@ const Todo = ({ title, index, completed }: TodoProps) => {
         </svg>
         <div className="size-full border-1 border-neutral-300 shadow-sm rounded-sm"></div>
       </div>
-      <div className="relative w-full h-fit flex items-center justify-start">
+      <div className="relative w-full h-fit flex items-center justify-start text-sm md:text-base">
         <span className={`absolute text-neutral-400 ${completed ? "w-56 h-fit" : "w-0 h-fit"} line-through bg-gray-100/20 whitespace-nowrap overflow-hidden transition-all duration-500`}>{title}</span>
         {title}
       </div>

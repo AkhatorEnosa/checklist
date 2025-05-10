@@ -37,7 +37,7 @@ function App() {
   }
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center p-10 bg-white">
+    <div className="w-screen h-screen flex flex-col md:flex-row justify-center items-center p-10 gap-10 bg-white">
       <div className={`w-[26rem] h-fit flex flex-col justify-center items-center ${color} rounded-[35px] shadow-xl transition-colors duration-300`}>
         <div className="w-full flex justify-between items-center px-6 py-5 text-white text-lg font-medium">
           <div className="flex justify-center items-center gap-6">
@@ -49,7 +49,7 @@ function App() {
             <span className={`flex justify-center items-center bg-white size-6 ${textColor} p-4 rounded-full text-2xl font-bold cursor-pointer`}
               onClick={() => setShowInput(true)}
             ><i className="bi bi-plus-lg"></i></span>
-            <p>Done</p>
+            {/* <p>Done</p> */}
           </div>}
         </div>
 
@@ -57,12 +57,12 @@ function App() {
           animate={{ y: 0, boxShadow: `0px -15px 20px -20px rgba(0,0,0,0.8)` }}
           initial={{ y: 20}}
           transition={{ type: "spring" }}
-          className="w-full max-h-[60vh] flex flex-col justify-center rounded-[25px] px-5 py-5 gap-5 bg-white font-semibold overflow-scroll"
+          className="w-full max-h-[60vh] flex flex-col justify-center rounded-[25px] px-5 py-5 gap-2 md:gap-5 bg-white font-semibold overflow-scroll"
         >
-          <h2 className="w-full bg-white sticky top-0 text-lg pb-4 z-40">{showInput ? "Write a Todo" : "Todo this day"}</h2>
+          <h2 className="w-full bg-white sticky flex items-center top-0 md:text-lg pb-4 z-40">{showInput ? "Write a Todo" : "Todo this day"}</h2>
           {
             !showInput ? 
-            <ul className="w-full flex flex-col justify-center items-start gap-2 mt-10">
+            <ul className="w-full flex flex-col justify-center items-start gap-2">
               {todos && todos.map((todo, i) => (
                 <Todo key={todo.id} title={todo.title} index={i} completed={todo.completed}/> 
               ))}
@@ -116,7 +116,7 @@ function App() {
         variants={variants}
         initial="hidden"
         animate="visible"
-        className="w-fit h-fit flex flex-col justify-center items-center gap-2 p-2 bg-white rounded-full shadow-xl ml-10 overflow-hidden">
+        className="w-fit h-fit flex md:flex-col justify-center items-center gap-2 p-2 bg-white rounded-full shadow-xl md:ml-10 overflow-hidden">
         {COLORS.map((color, index) => (
           <Color key={color} color={color} index={index}/>
         ))}
